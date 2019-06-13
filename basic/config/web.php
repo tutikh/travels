@@ -49,7 +49,6 @@ $config = [
 
         'urlManager' => [
             'enablePrettyUrl' => true,
-            'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
                 [
@@ -62,7 +61,8 @@ $config = [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'location',
                     'pluralize' => true,
-                    'tokens' => ['{id}' => '<id:\\d+>']
+                    'tokens' => ['{id}' => '<id:\\d+>'],
+                    'extraPatterns' => ['GET {id}/avg' => 'avg'],
                 ],
                 [
                     'class' => 'yii\rest\UrlRule',

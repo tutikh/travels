@@ -19,8 +19,8 @@ class UserController extends ApiController
 
         $visits = Visit::find()->where(["user" => $id])->with("locations")->orderBy('visited_at', "DESC")->asArray()->all();
 
-     //   echo "<pre>";
-       // print_r($visits);
+       // echo "<pre>";
+        // print_r($visits);
 
 
         $response = [];

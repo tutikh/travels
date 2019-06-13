@@ -7,6 +7,7 @@ use yii\base\Model;
 use yii\web\ForbiddenHttpException;
 use yii\rest\Controller;
 use yii\filters\ContentNegotiator;
+use yii\data\ActiveDataProvider;
 
 class ApiController extends Controller
 {
