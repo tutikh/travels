@@ -17,167 +17,41 @@ class UserController extends ApiController
 
     public function actionVisits($id)
     {
-        //print_r($_GET);
+        $arr = [];
+        $arr['User'] = $id;
+        $fromdate = [];
+        $todate = [];
+        $todistance = [];
 
-        //echo Yii::$app->request->get('toDistance');
-        //echo "\n";
-       // $user = User::find()->where(["id" => $id])->with("visits.locations")->asArray()->one();
-
-        $visits = Visit::find()->where(["user" => $id])->with("locations")->orderBy('visited_at', "DESC")->asArray()->all();
-
-
-
-
-
-        if (!empty($_GET["country"]) && !empty($_GET["toDistance"]) && !empty($_GET["fromDate"]) && !empty($_GET["toDate"])) {
-            foreach ($visits as $vis) {
-                if ($vis['locations']['country'] == $_GET["country"] && $vis['locations']['distance'] < $_GET["toDistance"] && $vis['visited_at'] > $_GET["fromDate"] && $vis['visited_at'] < $_GET["toDate"]) {
-                    $data = [
-                        "mark" => $vis['mark'],
-                        "visited_at" => $vis['visited_at'],
-                        "place" => $vis['locations']['place'],
-                        "country" => $vis['locations']['country'],
-                        "distance" => $vis['locations']['distance']
-                    ];
-                    $res['visits'][] = $data;
-                }
-            }
-            return $res;
-        } elseif (!empty($_GET["country"]) && !empty($_GET["toDistance"]) && !empty($_GET["fromDate"])) {
-            foreach ($visits as $vis) {
-                if ($vis['locations']['country'] == $_GET["country"] && $vis['locations']['distance'] < $_GET["toDistance"] && $vis['visited_at'] > $_GET["fromDate"]) {
-                    $data = [
-                        "mark" => $vis['mark'],
-                        "visited_at" => $vis['visited_at'],
-                        "place" => $vis['locations']['place'],
-                        "country" => $vis['locations']['country'],
-                        "distance" => $vis['locations']['distance']
-                    ];
-                    $res['visits'][] = $data;
-                }
-            } return $res;
-        } elseif (!empty($_GET["country"]) && !empty($_GET["toDistance"]) && !empty($_GET["toDate"])) {
-            foreach ($visits as $vis) {
-                if ($vis['locations']['country'] == $_GET["country"] && $vis['locations']['distance'] < $_GET["toDistance"] && $vis['visited_at'] < $_GET["toDate"]) {
-                    $data = [
-                        "mark" => $vis['mark'],
-                        "visited_at" => $vis['visited_at'],
-                        "place" => $vis['locations']['place'],
-                        "country" => $vis['locations']['country'],
-                        "distance" => $vis['locations']['distance']
-                    ];
-                    $res['visits'][] = $data;
-                }
-            } return $res;
-        } elseif (!empty($_GET["country"]) && !empty($_GET["fromDate"]) && !empty($_GET["toDate"])) {
-            foreach ($visits as $vis) {
-                if ($vis['locations']['country'] == $_GET["country"] && $vis['visited_at'] > $_GET["fromDate"]) {
-                    $data = [
-                        "mark" => $vis['mark'],
-                        "visited_at" => $vis['visited_at'],
-                        "place" => $vis['locations']['place'],
-                        "country" => $vis['locations']['country'],
-                        "distance" => $vis['locations']['distance']
-                    ];
-                    $res['visits'][] = $data;
-                }
-            } return $res;
-        } elseif (!empty($_GET["country"])) {
-            foreach ($visits as $vis) {
-                if ($vis['locations']['country'] == $_GET["country"]) {
-                    $data = [
-                        "mark" => $vis['mark'],
-                        "visited_at" => $vis['visited_at'],
-                        "place" => $vis['locations']['place'],
-                        "country" => $vis['locations']['country'],
-                        "distance" => $vis['locations']['distance']
-                    ];
-                    $res['visits'][] = $data;
-                }
-            } return $res;
-        } elseif (!empty($_GET["toDistance"])) {
-            foreach ($visits as $vis) {
-                if ($vis['locations']['distance'] < $_GET["toDistance"]) {
-                    $data = [
-                        "mark" => $vis['mark'],
-                        "visited_at" => $vis['visited_at'],
-                        "place" => $vis['locations']['place'],
-                        "country" => $vis['locations']['country'],
-                        "distance" => $vis['locations']['distance']
-                    ];
-                    $res['visits'][] = $data;
-                }
-            } return $res;
-        } elseif (!empty($_GET["fromDate"]) && !empty($_GET["toDate"])) {
-            foreach ($visits as $vis) {
-                if ($vis['visited_at'] > $_GET["fromDate"] && $vis['visited_at'] < $_GET["toDate"]) {
-                    $data = [
-                        "mark" => $vis['mark'],
-                        "visited_at" => $vis['visited_at'],
-                        "place" => $vis['locations']['place'],
-                        "country" => $vis['locations']['country'],
-                        "distance" => $vis['locations']['distance']
-                    ];
-                    $res['visits'][] = $data;
-                }
-            }
-            return $res;
-        } elseif (!empty($_GET["fromDate"])) {
-            foreach ($visits as $vis) {
-                if ($vis['visited_at'] > $_GET["fromDate"]) {
-                    $data = [
-                        "mark" => $vis['mark'],
-                        "visited_at" => $vis['visited_at'],
-                        "place" => $vis['locations']['place'],
-                        "country" => $vis['locations']['country'],
-                        "distance" => $vis['locations']['distance']
-                    ];
-                    $res['visits'][] = $data;
-                }
-            }
-            return $res;
-        } elseif (!empty($_GET["toDate"])) {
-            foreach ($visits as $vis) {
-                if ($vis['visited_at'] < $_GET["toDate"]) {
-                    $data = [
-                        "mark" => $vis['mark'],
-                        "visited_at" => $vis['visited_at'],
-                        "place" => $vis['locations']['place'],
-                        "country" => $vis['locations']['country'],
-                        "distance" => $vis['locations']['distance']
-                    ];
-                    $res['visits'][] = $data;
-                }
-            }
-            return $res;
+        if (!empty($_GET["country"])) {
+            $arr['Location.country'] = $_GET["country"];
+        }
+        if (!empty($_GET["fromDate"])) {
+            $fromdate = ['>', 'Visit.visited_at', $_GET["fromDate"]];
+        }
+        if (!empty($_GET["toDate"])) {
+            $todate = ['<', 'Visit.visited_at', $_GET["toDate"]];
+        }
+        if (!empty($_GET["toDistance"])) {
+            $todistance = ['<', 'Location.distance', $_GET["toDistance"]];
         }
 
+        $visits = Visit::find()
+            ->select('Visit.mark, Visit.visited_at, Location.place' )
+            ->rightJoin('Location', 'Visit.location = Location.id')
+            ->rightJoin('User', 'Visit.user = User.id')
+            ->where($arr)
+            ->andWhere($fromdate)
+            ->andWhere($todate)
+            ->andWhere($todistance)
+            ->orderBy('Visit.visited_at')
+            ->asArray(true)
+            ->all();
 
-
-
-
-                // echo "<pre>";
-        // print_r($visits);
-
-
-    /*    $response = [];
-        $response['visits'] = [];
-        foreach ($visits as $visit) {
-            $data = [
-                "mark" => $visit['mark'],
-                "visited_at"  => $visit['visited_at'],
-                "place" => $visit['locations']['place']
-            ];
-            $response['visits'][] = $data;
-        }
+//        echo "<pre>";
+//        print_r($visits);
+        $response['visits']=$visits;
 
         return $response;
-
-*/
     }
-
-    public function actionNew() {
-
-    }
-
 }
