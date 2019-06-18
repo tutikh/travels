@@ -59,7 +59,7 @@ class ApiController extends Controller
         return [
             'index' => ['GET'],
             'view' => ['GET'],
-            'create' => ['POST new'],
+            'create' => ['POST'],
             'update' => ['POST'],
         ];
     }

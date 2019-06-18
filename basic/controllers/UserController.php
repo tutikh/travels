@@ -15,6 +15,33 @@ class UserController extends ApiController
 {
     public $modelClass = 'app\models\User';
 
+//    public function actionAge($id)
+//    {
+//        $t = 1544576406;
+//        $user = User::find()->where(["id" => $id])->asArray()->one();
+//
+//        //echo "<pre>";
+//        //print_r($user);
+//
+//        foreach ($user as $u) {
+//            $a = $t - $user['birth_date'];
+//            $age = intval($a/31536000);
+//        }
+//
+//
+//        return $age;
+//    }
+//
+//    public function actionUpd()
+//    {
+//        $users = User::find()->indexBy('id')->all();
+//        foreach ($users as $user) {
+//            $user -> age = $this->actionAge($user['id']);
+//            $user->save();
+//        }
+//        return $users;
+//    }
+
     public function actionVisits($id)
     {
         $arr = [];

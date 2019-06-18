@@ -57,6 +57,8 @@ $config = [
                     'tokens' => ['{id}' => '<id:\\d+>'],
                     'extraPatterns' => [
                         'GET {id}/visits' => 'visits',
+//                        'GET {id}/age' => 'age',
+//                        'GET upd' => 'upd',
                     ],
                 ],
                 [
@@ -66,8 +68,7 @@ $config = [
                     'tokens' => ['{id}' => '<id:\\d+>'],
                     'extraPatterns' => [
                         'GET {id}/avg' => 'avg',
-                        'GET {id}/age' => 'age',
-                        'GET {id}/avg2' => 'avg2',
+//                        'GET {id}/age' => 'age',
                     ],
                 ],
                 [
