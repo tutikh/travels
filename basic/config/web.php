@@ -55,14 +55,20 @@ $config = [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'user', 'pluralize' => true,
                     'tokens' => ['{id}' => '<id:\\d+>'],
-                    'extraPatterns' => ['GET {id}/visits' => 'visits'],
+                    'extraPatterns' => [
+                        'GET {id}/visits' => 'visits',
+                    ],
                 ],
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'location',
                     'pluralize' => true,
                     'tokens' => ['{id}' => '<id:\\d+>'],
-                    'extraPatterns' => ['GET {id}/avg' => 'avg'],
+                    'extraPatterns' => [
+                        'GET {id}/avg' => 'avg',
+                        'GET {id}/age' => 'age',
+                        'GET {id}/avg2' => 'avg2',
+                    ],
                 ],
                 [
                     'class' => 'yii\rest\UrlRule',
@@ -76,13 +82,15 @@ $config = [
     'params' => $params,
 ];
 
+define('YII_ENV_DEV', true);
+
 if (YII_ENV_DEV) {
     // configuration adjustments for 'dev' environment
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',
         // uncomment the following to add your IP if you are not connecting from localhost.
-        //'allowedIPs' => ['127.0.0.1', '::1'],
+        'allowedIPs' => ['127.0.0.1', '::1'],
     ];
 
     $config['bootstrap'][] = 'gii';

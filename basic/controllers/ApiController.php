@@ -4,7 +4,6 @@ namespace app\controllers;
 
 use yii\base\InvalidConfigException;
 use yii\base\Model;
-use yii\web\ForbiddenHttpException;
 use yii\rest\Controller;
 use yii\filters\ContentNegotiator;
 use yii\data\ActiveDataProvider;
@@ -60,7 +59,7 @@ class ApiController extends Controller
         return [
             'index' => ['GET'],
             'view' => ['GET'],
-            'create' => ['POST'],
+            'create' => ['POST new'],
             'update' => ['POST'],
         ];
     }
