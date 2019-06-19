@@ -30,8 +30,7 @@ class Visit extends \yii\db\ActiveRecord
     {
         return [
             [['location', 'user', 'visited_at', 'mark'], 'required'],
-            [['location', 'user', 'mark'], 'integer'],
-            [['visited_at'], 'string', 'max' => 150],
+            [['location', 'user', 'mark', 'visited_at'], 'integer'],
         ];
     }
 

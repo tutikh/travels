@@ -57,6 +57,7 @@ $config = [
                     'tokens' => ['{id}' => '<id:\\d+>'],
                     'extraPatterns' => [
                         'GET {id}/visits' => 'visits',
+                        'POST new' => 'create',
 //                        'GET {id}/age' => 'age',
 //                        'GET upd' => 'upd',
                     ],

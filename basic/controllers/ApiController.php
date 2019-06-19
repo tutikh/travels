@@ -7,6 +7,7 @@ use yii\base\Model;
 use yii\rest\Controller;
 use yii\filters\ContentNegotiator;
 use yii\data\ActiveDataProvider;
+use yii;
 
 class ApiController extends Controller
 {
@@ -16,6 +17,8 @@ class ApiController extends Controller
     public $updateScenario = Model::SCENARIO_DEFAULT;
 
     public $createScenario = Model::SCENARIO_DEFAULT;
+
+    public $scenario = Model::SCENARIO_DEFAULT;
 
 
     public function init()
@@ -39,12 +42,12 @@ class ApiController extends Controller
                 'modelClass' => $this->modelClass,
                 'checkAccess' => [$this, 'checkAccess'],
             ],
-            'create' => [
-                'class' => 'yii\rest\CreateAction',
-                'modelClass' => $this->modelClass,
-                'checkAccess' => [$this, 'checkAccess'],
-                'scenario' => $this->createScenario,
-            ],
+//            'create' => [
+//                'class' => 'yii\rest\CreateAction',
+//                'modelClass' => $this->modelClass,
+//                'checkAccess' => [$this, 'checkAccess'],
+//                'scenario' => $this->createScenario,
+//            ],
             'update' => [
                 'class' => 'yii\rest\UpdateAction',
                 'modelClass' => $this->modelClass,
