@@ -8,6 +8,7 @@ use yii\rest\Controller;
 use yii\filters\ContentNegotiator;
 use yii\data\ActiveDataProvider;
 use yii;
+use yii\web\HttpException;
 
 class ApiController extends Controller
 {
@@ -48,12 +49,12 @@ class ApiController extends Controller
 //                'checkAccess' => [$this, 'checkAccess'],
 //                'scenario' => $this->createScenario,
 //            ],
-            'update' => [
-                'class' => 'yii\rest\UpdateAction',
-                'modelClass' => $this->modelClass,
-                'checkAccess' => [$this, 'checkAccess'],
-                'scenario' => $this->updateScenario,
-            ],
+//            'update' => [
+//                'class' => 'yii\rest\UpdateAction',
+//                'modelClass' => $this->modelClass,
+//                'checkAccess' => [$this, 'checkAccess'],
+//                'scenario' => $this->updateScenario,
+//            ],
         ];
     }
 

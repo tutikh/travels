@@ -54,4 +54,11 @@ class Visit extends \yii\db\ActiveRecord
     public function getUser() {
         return $this -> hasOne(User::className(), ['id' => 'user']);
     }
+
+    public function scenarios()
+    {
+        $scenarios['default'] = ['id', 'location', 'user', 'visited_at', 'mark'];
+        $scenarios['safe'] = ['location', 'user', 'visited_at', 'mark'];
+        return $scenarios;
+    }
 }

@@ -122,5 +122,22 @@ class UserController extends ApiController
         }
     }
 
+    public function actionUpdate($id)
+    {
+        $model = User::find()->where(["id" => $id])->one();
+        $model->scenario = 'safe';
+        $model->load(Yii::$app->getRequest()->getBodyParams(), '');
+        if (!$model) {
+            throw new HttpException('404');
+        }
+        if ($model->save()) {
+            $response = Yii::$app->getResponse();
+            $response->setStatusCode(200);
+            echo '{}';
+        } elseif ($model->hasErrors()) {
+            throw new HttpException('400');
+        }
+    }
+
 
 }

@@ -58,6 +58,7 @@ $config = [
                     'extraPatterns' => [
                         'GET {id}/visits' => 'visits',
                         'POST new' => 'create',
+                        'POST {id}' => 'update',
 //                        'GET {id}/age' => 'age',
 //                        'GET upd' => 'upd',
                     ],
@@ -69,6 +70,8 @@ $config = [
                     'tokens' => ['{id}' => '<id:\\d+>'],
                     'extraPatterns' => [
                         'GET {id}/avg' => 'avg',
+                        'POST new' => 'create',
+                        'POST {id}' => 'update',
 //                        'GET {id}/age' => 'age',
                     ],
                 ],
@@ -76,7 +79,11 @@ $config = [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'visit',
                     'pluralize' => true,
-                    'tokens' => ['{id}' => '<id:\\d+>']
+                    'tokens' => ['{id}' => '<id:\\d+>'],
+                    'extraPatterns' => [
+                        'POST new' => 'create',
+                        'POST {id}' => 'update',
+                    ],
                 ],
             ],
         ],

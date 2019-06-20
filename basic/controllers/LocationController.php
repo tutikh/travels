@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\controllers\ApiController;
 use app\models\Location;
 use app\models\User;
+use Yii;
 use yii\web\HttpException;
 
 class LocationController extends ApiController
@@ -62,8 +63,8 @@ class LocationController extends ApiController
                 throw new HttpException('400');
             }
         }
-        if (isset($_GET["fromAge"])) {
-            $toage = ['>', 'User.age', $_GET["fromAge"]];
+        if (isset($_GET["toAge"])) {
+            $toage = ['<', 'User.age', $_GET["toAge"]];
             if (!is_numeric($_GET["toAge"])) {
                 throw new HttpException('400');
             }
@@ -74,7 +75,7 @@ class LocationController extends ApiController
 
 
         $location = Location::find()
-            ->select('avg(Visit.mark) as avg' )
+            ->select('avg(Visit.mark) as avg')
             ->rightJoin('Visit', 'Location.id = Visit.location')
             ->rightJoin('User', 'Visit.user = User.id')
             ->where($arr)
@@ -91,12 +92,44 @@ class LocationController extends ApiController
 
         if (is_null($location)) {
             $response['avg'] = 0;
-        } else $response = $location;
+        } else $response['avg'] = round($location['avg'], 5);
+
 
         return $response;
 
+    }
 
+    public function actionCreate()
+    {
+        $model = new Location;
+        $model->load(Yii::$app->getRequest()->getBodyParams(), '');
+        $isExists = Location::find()->where(['id' => $model->id])->exists();
+        if ($isExists) {
+            throw new HttpException('400');
+        }
+        if ($model->save()) {
+            $response = Yii::$app->getResponse();
+            $response->setStatusCode(200);
+            echo '{}';
+        } elseif ($model->hasErrors()) {
+            throw new HttpException('400');
+        }
+    }
 
-
+    public function actionUpdate($id)
+    {
+        $model = Location::find()->where(["id" => $id])->one();
+        $model->scenario = 'safe';
+        $model->load(Yii::$app->getRequest()->getBodyParams(), '');
+        if (!$model) {
+            throw new HttpException('404');
+        }
+        if ($model->save()) {
+            $response = Yii::$app->getResponse();
+            $response->setStatusCode(200);
+            echo '{}';
+        } elseif ($model->hasErrors()) {
+            throw new HttpException('400');
+        }
     }
 }

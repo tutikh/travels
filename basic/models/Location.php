@@ -54,5 +54,10 @@ class Location extends \yii\db\ActiveRecord
         return $this -> hasMany(Visit::className(), ['location' => 'id']);
     }
 
-
+    public function scenarios()
+    {
+        $scenarios['default'] = ['id', 'distance', 'city', 'place', 'country'];
+        $scenarios['safe'] = ['distance', 'city', 'place', 'country'];
+        return $scenarios;
+    }
 }

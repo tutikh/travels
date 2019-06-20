@@ -64,4 +64,11 @@ class User extends \yii\db\ActiveRecord
         unset($fields['age']);
         return $fields;
     }
+
+    public function scenarios()
+    {
+        $scenarios['default'] = ['id', 'email', 'first_name', 'last_name', 'gender', 'birth_date'];
+        $scenarios['safe'] = ['email', 'first_name', 'last_name', 'gender', 'birth_date'];
+        return $scenarios;
+    }
 }
