@@ -11,6 +11,7 @@ use app\models\Location;
 use yii\web\BadRequestHttpException;
 use Yii;
 use yii\web\HttpException;
+use yii\web\Response;
 
 class UserController extends ApiController
 {
@@ -45,6 +46,13 @@ class UserController extends ApiController
 
     public function actionVisits($id)
     {
+        $model = User::find()->where(["id" => $id])->one();
+        if ($model == null) {
+            $response = Yii::$app->getResponse();
+            $response->setStatusCode(404);
+            $response->format = Response::FORMAT_HTML;
+            return '';
+        }
 //        var_dump($_GET);
 //        die();
         $arr = [];
@@ -56,30 +64,45 @@ class UserController extends ApiController
 
         if (isset($_GET["country"]) ) {
             $arr['Location.country'] = $_GET["country"];
-            if (!ctype_alpha($_GET["country"])) {
-                throw new HttpException('400');
-            }
+//            if (!ctype_alpha($_GET["country"])) {
+//                $response = Yii::$app->getResponse();
+//                $response->setStatusCode(400);
+//                $response->format = Response::FORMAT_HTML;
+//                return '';
+//            }
         }
         if (isset($_GET["fromDate"])) {
             $fromdate = ['>', 'Visit.visited_at', $_GET["fromDate"]];
             if (!is_numeric($_GET["fromDate"])) {
-                throw new HttpException('400');
+                $response = Yii::$app->getResponse();
+                $response->setStatusCode(400);
+                $response->format = Response::FORMAT_HTML;
+                return '';
             }
         }
         if (isset($_GET["toDate"])) {
             $todate = ['<', 'Visit.visited_at', $_GET["toDate"]];
             if (!is_numeric($_GET["toDate"])) {
-                throw new HttpException('400');
+                $response = Yii::$app->getResponse();
+                $response->setStatusCode(400);
+                $response->format = Response::FORMAT_HTML;
+                return '';
             }
         }
         if (isset($_GET["toDistance"])) {
             $todistance = ['<', 'Location.distance', $_GET["toDistance"]];
             if (!is_numeric($_GET["toDistance"])) {
-                throw new HttpException('400');
+                $response = Yii::$app->getResponse();
+                $response->setStatusCode(400);
+                $response->format = Response::FORMAT_HTML;
+                return '';
             }
         }
         if ($_GET == '') {
-            throw new HttpException('400');
+            $response = Yii::$app->getResponse();
+            $response->setStatusCode(400);
+            $response->format = Response::FORMAT_HTML;
+            return '';
         }
 
 
@@ -98,9 +121,19 @@ class UserController extends ApiController
 
 //        echo "<pre>";
 //        print_r($visits);
+
+
+        foreach ($visits as $key => $visit) {
+            $visits[$key]['mark'] = (int) $visit['mark'];
+            $visits[$key]['visited_at'] = (int) $visit['visited_at'];
+        }
+
+
         if (is_null($visits)) {
             $response['visits']=[];
         } else $response['visits']=$visits;
+
+
 
         return $response;
     }
@@ -111,33 +144,71 @@ class UserController extends ApiController
         $model->load(Yii::$app->getRequest()->getBodyParams(), '');
         $isExists = User::find()->where(['id' => $model->id])->exists();
         if ($isExists) {
-            throw new HttpException('400');
+            $response = Yii::$app->getResponse();
+            $response->setStatusCode(400);
+            $response->format = Response::FORMAT_HTML;
+            return '';
+        }
+        if (is_null($model->id)) {
+            $response = Yii::$app->getResponse();
+            $response->setStatusCode(400);
+            $response->format = Response::FORMAT_HTML;
+            return '';
         }
         if ($model->save()) {
             $response = Yii::$app->getResponse();
             $response->setStatusCode(200);
-            echo '{}';
+            $response->format = Response::FORMAT_HTML;
+            return '';
         } elseif ($model->hasErrors()) {
-            throw new HttpException('400');
+            $response = Yii::$app->getResponse();
+            $response->setStatusCode(400);
+            $response->format = Response::FORMAT_HTML;
+            return '';
         }
     }
 
     public function actionUpdate($id)
     {
         $model = User::find()->where(["id" => $id])->one();
-        $model->scenario = 'safe';
-        $model->load(Yii::$app->getRequest()->getBodyParams(), '');
         if (!$model) {
-            throw new HttpException('404');
+            $response = Yii::$app->getResponse();
+            $response->setStatusCode(404);
+            $response->format = Response::FORMAT_HTML;
+            return '';
         }
+        $model->scenario = 'safe';
+        $data = Yii::$app->getRequest()->getBodyParams();
+        if (empty($data)) {
+            $response = Yii::$app->getResponse();
+            $response->setStatusCode(400);
+            $response->format = Response::FORMAT_HTML;
+            return '';
+        }
+        $model->load($data, '');
+
         if ($model->save()) {
             $response = Yii::$app->getResponse();
             $response->setStatusCode(200);
-            echo '{}';
+            $response->format = Response::FORMAT_HTML;
+            return '';
         } elseif ($model->hasErrors()) {
-            throw new HttpException('400');
+            $response = Yii::$app->getResponse();
+            $response->setStatusCode(400);
+            $response->format = Response::FORMAT_HTML;
+            return '';
         }
     }
 
+    public function actionView($id)
+    {
+        $model = User::find()->where(["id" => $id])->one();
 
+        if ($model == null) {
+            $response = Yii::$app->getResponse();
+            $response->setStatusCode(404);
+            $response->format = Response::FORMAT_HTML;
+            return '';
+        } else return $model;
+    }
 }

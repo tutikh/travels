@@ -54,8 +54,9 @@ $config = [
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'user', 'pluralize' => true,
-                    'tokens' => ['{id}' => '<id:\\d+>'],
+                    'tokens' => ['{id}' => '<id:\\w+>'],
                     'extraPatterns' => [
+                        'GET {id}' => 'view',
                         'GET {id}/visits' => 'visits',
                         'POST new' => 'create',
                         'POST {id}' => 'update',
@@ -67,8 +68,9 @@ $config = [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'location',
                     'pluralize' => true,
-                    'tokens' => ['{id}' => '<id:\\d+>'],
+                    'tokens' => ['{id}' => '<id:\\w+>'],
                     'extraPatterns' => [
+                        'GET {id}' => 'view',
                         'GET {id}/avg' => 'avg',
                         'POST new' => 'create',
                         'POST {id}' => 'update',
@@ -79,8 +81,9 @@ $config = [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'visit',
                     'pluralize' => true,
-                    'tokens' => ['{id}' => '<id:\\d+>'],
+                    'tokens' => ['{id}' => '<id:\\w+>'],
                     'extraPatterns' => [
+                        'GET {id}' => 'view',
                         'POST new' => 'create',
                         'POST {id}' => 'update',
                     ],

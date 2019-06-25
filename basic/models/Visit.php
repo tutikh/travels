@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\AttributeTypecastBehavior;
 
 /**
  * This is the model class for table "Visit".
@@ -23,6 +24,21 @@ class Visit extends \yii\db\ActiveRecord
         return 'Visit';
     }
 
+//    public function behaviors()
+//    {
+//        return [
+//            'typecast' => [
+//                'class' => AttributeTypecastBehavior::className(),
+//                'attributeTypes' => [
+//                    'mark' => AttributeTypecastBehavior::TYPE_INTEGER,
+//                    'visited_at' => AttributeTypecastBehavior::TYPE_INTEGER,
+//                ],
+//                'typecastAfterValidate' => true,
+//                'typecastBeforeSave' => false,
+//                'typecastAfterFind' => true,
+//            ],
+//        ];
+//    }
     /**
      * {@inheritdoc}
      */
@@ -61,4 +77,10 @@ class Visit extends \yii\db\ActiveRecord
         $scenarios['safe'] = ['location', 'user', 'visited_at', 'mark'];
         return $scenarios;
     }
+
+//    public function afterFind() {
+//        parent::afterFind();
+//        $this->mark = (int) $this->mark;
+//        $this->visited_at = (int) $this->visited_at;
+//    }
 }

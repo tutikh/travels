@@ -2,6 +2,7 @@
 
 return [
     'class' => 'yii\db\Connection',
+    'driverName' => 'mysql',
     'dsn' => 'mysql:host=localhost;dbname=trav',
     'username' => 'root',
     'password' => '123',

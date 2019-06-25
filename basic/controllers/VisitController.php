@@ -6,6 +6,7 @@ use app\controllers\ApiController;
 use Yii;
 use yii\web\HttpException;
 use app\models\Visit;
+use yii\web\Response;
 
 class VisitController extends ApiController
 {
@@ -14,34 +15,74 @@ class VisitController extends ApiController
     public function actionCreate()
     {
         $model = new Visit;
+        $model->scenario = 'default';
         $model->load(Yii::$app->getRequest()->getBodyParams(), '');
         $isExists = Visit::find()->where(['id' => $model->id])->exists();
         if ($isExists) {
-            throw new HttpException('400');
+            $response = Yii::$app->getResponse();
+            $response->setStatusCode(400);
+            $response->format = Response::FORMAT_HTML;
+            return '';
+        }
+        if (is_null($model->id)) {
+            $response = Yii::$app->getResponse();
+            $response->setStatusCode(400);
+            $response->format = Response::FORMAT_HTML;
+            return '';
         }
         if ($model->save()) {
             $response = Yii::$app->getResponse();
             $response->setStatusCode(200);
-            echo '{}';
+            $response->format = Response::FORMAT_HTML;
+            return '';
         } elseif ($model->hasErrors()) {
-            throw new HttpException('400');
+            $response = Yii::$app->getResponse();
+            $response->setStatusCode(400);
+            $response->format = Response::FORMAT_HTML;
+            return '';
         }
     }
 
     public function actionUpdate($id)
     {
         $model = Visit::find()->where(["id" => $id])->one();
-        $model->scenario = 'safe';
-        $model->load(Yii::$app->getRequest()->getBodyParams(), '');
         if (!$model) {
-            throw new HttpException('404');
+            $response = Yii::$app->getResponse();
+            $response->setStatusCode(404);
+            $response->format = Response::FORMAT_HTML;
+            return '';
         }
+        $model->scenario = 'safe';
+        $data = Yii::$app->getRequest()->getBodyParams();
+        if (empty($data)) {
+            $response = Yii::$app->getResponse();
+            $response->setStatusCode(400);
+            $response->format = Response::FORMAT_HTML;
+            return '';
+        }
+        $model->load($data, '');
+
         if ($model->save()) {
             $response = Yii::$app->getResponse();
             $response->setStatusCode(200);
-            echo '{}';
+            $response->format = Response::FORMAT_HTML;
+            return '';
         } elseif ($model->hasErrors()) {
-            throw new HttpException('400');
+            $response = Yii::$app->getResponse();
+            $response->setStatusCode(400);
+            $response->format = Response::FORMAT_HTML;
+            return '';
         }
+    }
+
+    public function actionView($id)
+    {
+        $model = Visit::find()->where(["id" => $id])->one();
+        if (!$model) {
+            $response = Yii::$app->getResponse();
+            $response->setStatusCode(404);
+            $response->format = Response::FORMAT_HTML;
+            return '';
+        } else return $model;
     }
 }

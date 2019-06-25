@@ -13,6 +13,7 @@ use Yii;
  * @property string $last_name
  * @property string $gender
  * @property string $birth_date
+ * @property int $age
  */
 class User extends \yii\db\ActiveRecord
 {
@@ -67,8 +68,19 @@ class User extends \yii\db\ActiveRecord
 
     public function scenarios()
     {
-        $scenarios['default'] = ['id', 'email', 'first_name', 'last_name', 'gender', 'birth_date'];
-        $scenarios['safe'] = ['email', 'first_name', 'last_name', 'gender', 'birth_date'];
+        $scenarios['default'] = ['id', 'email', 'first_name', 'last_name', 'gender', 'birth_date', 'age'];
+        $scenarios['safe'] = ['email', 'first_name', 'last_name', 'gender', 'birth_date', 'age'];
         return $scenarios;
     }
+
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            $this->age = number_format(((1544576406 - ($this->birth_date))/31536000),  2, '.', '');
+            return true;
+        }
+        return false;
+    }
+
+
 }

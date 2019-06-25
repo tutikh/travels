@@ -38,11 +38,11 @@ class ApiController extends Controller
                 'modelClass' => $this->modelClass,
                 'checkAccess' => [$this, 'checkAccess'],
             ],
-            'view' => [
-                'class' => 'yii\rest\ViewAction',
-                'modelClass' => $this->modelClass,
-                'checkAccess' => [$this, 'checkAccess'],
-            ],
+//            'view' => [
+//                'class' => 'yii\rest\ViewAction',
+//                'modelClass' => $this->modelClass,
+//                'checkAccess' => [$this, 'checkAccess'],
+//            ],
 //            'create' => [
 //                'class' => 'yii\rest\CreateAction',
 //                'modelClass' => $this->modelClass,
