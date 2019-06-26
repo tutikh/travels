@@ -82,8 +82,7 @@ class LocationController extends ApiController
         $res['avg'] = (float) $location['avg'];
             if (filter_var($res['avg'], FILTER_VALIDATE_INT)) {
                 $response->setStatusCode(200);
-            echo sprintf('{ "avg": %.1f }', $location['avg']);
-            die();
+            return sprintf('{ "avg": %.1f }', $location['avg']);
         } elseif (is_null($location['avg'])) {
                 $response->setStatusCode(200);
                 echo '{ "avg": 0.0 }';
