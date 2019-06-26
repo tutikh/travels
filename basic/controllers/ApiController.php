@@ -6,9 +6,6 @@ use yii\base\InvalidConfigException;
 use yii\base\Model;
 use yii\rest\Controller;
 use yii\filters\ContentNegotiator;
-use yii\data\ActiveDataProvider;
-use yii;
-use yii\web\HttpException;
 
 class ApiController extends Controller
 {
@@ -38,23 +35,6 @@ class ApiController extends Controller
                 'modelClass' => $this->modelClass,
                 'checkAccess' => [$this, 'checkAccess'],
             ],
-//            'view' => [
-//                'class' => 'yii\rest\ViewAction',
-//                'modelClass' => $this->modelClass,
-//                'checkAccess' => [$this, 'checkAccess'],
-//            ],
-//            'create' => [
-//                'class' => 'yii\rest\CreateAction',
-//                'modelClass' => $this->modelClass,
-//                'checkAccess' => [$this, 'checkAccess'],
-//                'scenario' => $this->createScenario,
-//            ],
-//            'update' => [
-//                'class' => 'yii\rest\UpdateAction',
-//                'modelClass' => $this->modelClass,
-//                'checkAccess' => [$this, 'checkAccess'],
-//                'scenario' => $this->updateScenario,
-//            ],
         ];
     }
 

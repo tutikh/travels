@@ -60,8 +60,6 @@ $config = [
                         'GET {id}/visits' => 'visits',
                         'POST new' => 'create',
                         'POST {id}' => 'update',
-//                        'GET {id}/age' => 'age',
-//                        'GET upd' => 'upd',
                     ],
                 ],
                 [
@@ -74,7 +72,6 @@ $config = [
                         'GET {id}/avg' => 'avg',
                         'POST new' => 'create',
                         'POST {id}' => 'update',
-//                        'GET {id}/age' => 'age',
                     ],
                 ],
                 [
